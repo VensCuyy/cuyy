@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>
+   VensCuyy Web | For share sc
+  </title>
+  
+  <meta name="description" content="VensCuyy Website">
+  <meta property="og:image" content="https://files.catbox.moe/9245kq.png">
+  <link rel="icon" href="https://files.catbox.moe/69yc9x.jpg">
+  <link rel="shortcut icon" href="https://files.catbox.moe/eb7dyx.jpg">
+  
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&amp;display=swap" rel="stylesheet"/>
+  <style>
+   body {
+            margin: 0;
+            font-family: 'Roboto', sans-serif;
+            background-color: #0d1117;
+            color: #fff;
+        }
+        .container {
+            padding: 20px;
+            padding-top: 100px; /* Adjusted padding to account for fixed header */
+        }
+        .header {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 10px 20px;
+            background-color: rgba(22, 27, 34, 0.8);
+            border-radius: 25px;
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 275px;
+            height: 55px;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s ease, top 0.3s ease;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+        .banner {
+            position: relative;
+            width: 100%;
+            overflow: hidden;
+            border-radius: 10px;
+            margin: 20px 0;
+            padding-top: 56.25%; /* 16:9 Aspect Ratio */
+        }
+        .slides {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        .slide {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+        }
+        .slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+        .active {
+            opacity: 1;
+        }
+        .dots {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 5px;
+        }
+        .dot {
+            width: 10px;
+            height: 10px;
+            background-color: #bbb;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+        .dot.active {
+            background-color: #007bff;
+        }
+        .category-select {
+            width: 100%;
+            padding: 10px;
+            border-radius: 10px;
+            border: none;
+            margin-bottom: 20px;
+            background-color: #1a1f2a;
+            color: #fff;
+            font-size: 16px;
+        }
+        .card {
+            background-color: #161b22;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            position: relative;
+        }
+        .card img {
+            width: 100%;
+            border-radius: 10px;
+        }
+        .badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: #007bff;
+            color: #fff;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 14px;
+        }
+        .card-content {
+            display: flex;
+            align-items: center;
+            margin-top: 10px;
+            flex-direction: column;
+            text-align: center;
+        }
+        .card-content img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            margin-bottom: 10px;
+        }
+        .card-content .info {
+            flex-grow: 1;
+        }
+        .card-content .info h3 {
+            margin: 0;
+            font-size: 18px;
+        }
+        .card-content .info p {
+            margin: 0;
+            color: #00d084;
+        }
+        .card-content .actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        .card-content .actions button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+        .card-content .actions .help {
+            background-color: transparent;
+            color: #007bff;
+            border: 2px solid #007bff;
+        }
+        .card-content .actions .download {
+            background-color: #007bff;
+            color: #fff;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1001;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+            animation: fadeIn 0.3s;
+        }
+        .modal-content {
+            background-color: #161b22;
+            border-radius: 10px;
+            padding: 20px;
+            width: 90%;
+            max-width: 500px;
+            text-align: center;
+            animation: slideIn 0.3s;
+        }
+        .modal-content h2 {
+            margin-top: 0;
+        }
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .close:hover,
+        .close:focus {
+            color: #fff;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .footer {
+            background-color: #161b22;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+            text-align: center;
+        }
+        .footer .profile {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .footer .profile img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            margin-bottom: 10px;
+        }
+        .footer .profile h3 {
+            margin: 0;
+            font-size: 20px;
+        }
+        .footer .profile p {
+            margin: 5px 0;
+            color: #00d084;
+        }
+        .footer .social-icons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 10px;
+        }
+        .footer .social-icons a {
+            color: #fff;
+            font-size: 24px;
+            transition: color 0.3s;
+        }
+        .footer .social-icons a:hover {
+            color: #007bff;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes slideIn {
+            from { transform: translateY(-50px); }
+            to { transform: translateY(0); }
+        }
+        @media (max-width: 768px) {
+            .header {
+                width: 90%;
+                height: auto;
+                padding: 10px;
+                border-radius: 15px;
+            }
+            .header h1 {
+                font-size: 20px;
+            }
+            .banner h2 {
+                font-size: 20px;
+            }
+            .card-content .info h3 {
+                font-size: 16px;
+            }
+            .card-content .actions button {
+                padding: 8px 16px;
+            }
+        }
+                .container {
+            text-align: center;
+            color: white;
+        }
+        .upload-title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        .upload-box {
+            display: inline-block;
+            padding: 20px;
+            border: 2px solid white;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            cursor: pointer;
+        }
+        .upload-box i {
+            font-size: 100px;
+        }
+        .upload-box p {
+            margin: 10px 0 0 0;
+            font-size: 18px;
+        }
+        .result-url {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .result-box {
+            width: 300px;
+            height: 50px;
+            background-color: #4A3A9E;
+            border-radius: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: white;
+            font-size: 16px;
+            padding: 0 10px;
+            box-sizing: border-box;
+            overflow: hidden;
+        }
+        .result-link {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .copy-icon {
+            cursor: pointer;
+        }
+        input[type="file"] {
+            display: none;
+        }
+  </style>
+ </head>
+ <body>
+   <!-- HEADER -->
+  <div class="header">
+   <h1>
+    VensCuyy Website
+   </h1>
+  </div>
+  
+  <!-- SLIDE SHOW -->
+  <div class="container">
+   <div class="banner">
+    <div class="slides" id="slides">
+     <div class="slide active">
+      <img alt="Slide 1" src="https://files.catbox.moe/ismumy.jpg"/>
+     </div>
+     <div class="slide">
+      <img alt="Slide 2" src="https://files.catbox.moe/9245kq.png"/>
+     </div>
+     <div class="slide">
+      <img alt="Slide 3" src="https://files.catbox.moe/69yc9x.jpg"/>
+     </div>
+    </div>
+    <div class="dots" id="dots">
+     <span class="dot active" onclick="currentSlide(0)">
+     </span>
+     <span class="dot" onclick="currentSlide(1)">
+     </span>
+     <span class="dot" onclick="currentSlide(2)">
+     </span>
+    </div>
+   </div>
+  </div>
+  
+      <!-- OPTION CARD -->
+   <select class="category-select" id="categorySelect" onchange="filterCards()">
+    <option value="all">
+     Semua Kategori
+    </option>
+    <option value="VensCuyy">
+     Information Web
+    </option>
+    <option value="Game">
+      Game
+    </option>
+    <option value="Img To Url">
+      Image To Url
+    </option>
+    <!-- TAMBAHAKN OPTION LAINNYA DISINI -->
+   </select>
+   
+       <!-- AREA CARD SCRIPT -->
+   <div class="card" data-category="VensCuyy">
+    <img alt="ERROR" height="300" src="https://files.catbox.moe/ismumy.jpg" width="600"/>
+    <div class="badge">
+     53
+    </div>
+    <div class="card-content">
+     <img alt="Script Await" height="50" src="https://files.catbox.moe/69yc9x.jpg" width="50"/>
+     <div class="info">
+      <h3>
+       VensCuyy
+      </h3>
+      <p>
+       Informasi Website
+      </p>
+     </div>
+     <div class="actions">
+      <button class="help" onclick="openModal('modalvens')">
+       TENTANG WEB
+      </button>
+     </div>
+    </div>
+   </div>
+   
+   <div class="card" data-category="Game">
+     <img alt="ERROR" height="300" src="https://files.catbox.moe/3z1mhm.png" width="600" />
+     <div class="badge">
+       5
+     </div>
+        <div class="card-content">
+          <img alt="Script Await" height="50" src="https://files.catbox.moe/69yc9x.jpg" width="50">
+          <div class="info">
+            <h3>
+              VensCuyy
+            </h3>
+            <p>
+              GAME BATU, KERTAS, GUNTING
+            </p>
+          </div>
+          <div class="actions">
+            <button type="submit" class="game1">
+              KLIK UNTUK MEMAINKAN GAME
+            </button>
+          </div>
+        </div>
+   </div>
+   
+      <div class="card" data-category="Game">
+     <img alt="ERROR" height="300" src="https://files.catbox.moe/mc8sj0.jpg" width="600" />
+     <div class="badge">
+       5
+     </div>
+        <div class="card-content">
+          <img alt="Script Await" height="50" src="https://files.catbox.moe/69yc9x.jpg" width="50">
+          <div class="info">
+            <h3>
+              VensCuyy
+            </h3>
+            <p>
+              GAME ULAR - ULAR AN NOKIA
+            </p>
+          </div>
+          <div class="actions">
+            <button type="submit" class="game2">
+              KLIK UNTUK MEMAINKAN GAME
+            </button>
+          </div>
+        </div>
+   </div>
+   
+      <div class="card" data-category="Game">
+     <img alt="ERROR" height="300" src="https://files.catbox.moe/t2hr41.jpg" width="600" />
+     <div class="badge">
+       5
+     </div>
+        <div class="card-content">
+          <img alt="Script Await" height="50" src="https://files.catbox.moe/69yc9x.jpg" width="50">
+          <div class="info">
+            <h3>
+              VensCuyy
+            </h3>
+            <p>
+              GAME MEMASUKAN BOLA SIMPLE
+            </p>
+          </div>
+          <div class="actions">
+            <button type="submit" class="game3">
+              KLIK UNTUK MEMAINKAN GAME
+            </button>
+          </div>
+        </div>
+   </div>
+   
+   <div class="card" data-category="Img To Url">
+    <img alt="ERROR" height="300" src="https://files.catbox.moe/2szjmu.jpg" width="600"/>
+    <div class="badge">
+     7
+    </div>
+        <div class="card-content">
+        <img alt="Script Await" height="50" src="https://files.catbox.moe/69yc9x.jpg" width="50"/>
+        <div class="info">
+          <h3>
+            VensCuyy
+          </h3>
+          <p>
+            IMAGE TO URL
+          </p>
+          </div>
+            <div class="actions">
+      <button type="submit" class="view">
+        UPLOAD IMG TO URL
+      </button>
+     </div>
+    </div>
+   </div>
+         
+<!-- TAMBAHKAN YANG LAIN CARDNYA,  COPPY & PASTE -->
+           
+           <!-- Area Helping Card -->
+   <div class="modal" id="modalvens">
+   <div class="modal-content">
+    <span class="close" onclick="closeModal('modalvens')">
+     ×
+    </span>
+    <h2>
+     TENTANG WEBSITE
+    </h2>
+    <p>
+     ini adalah website buatan VensCuyy, di dalam website ini ada berbagai macam game dan alat² sederhana.
+    </p>
+   </div>
+  </div>
+
+<!-- TAMBAHKAN MODAL LAINNYA DISINI -->
+
+  <meta name="description" content="VensCuyy">
+  <meta property="og:image" content="https://files.catbox.moe/92a38o.png">
+  <link rel="icon" href="https://files.catbox.moe/69yc9x.jpg">
+  <link rel="shortcut icon" href="https://files.catbox.moe/9245kq.png">
+  
+    <title>File Upload</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+    
+  <!-- FOOTER -->
+  <footer class="footer">
+   <div class="profile">
+    <img alt="Profile Picture" height="100" src="https://files.catbox.moe/ifx2y7.png" width="100"/>
+    <h3>
+     VensCuuy
+    </h3>
+    <p>
+     PELAJAR UMUR 14
+    </p>
+    <p>
+     Website buat Seru" an aja cuyy, banyak berbagai macam gane juga disini yoo
+    </p>
+   </div>
+   <div class="social-icons">
+    <a href="https://wa.me/6282245388943" target="_blank">
+     <i class="fab fa-whatsapp">
+     </i>
+    </a>
+    <a href="https://github.com/VensCuyy" target="_blank">
+     <i class="fab fa-github">
+     </i>
+    </a>
+   </div>
+  </footer>
+  <!-- AREA SCRIPT -->
+  <script>
+        document.getElementById('fileInput').addEventListener('change', async function(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const formData = new FormData();
+            formData.append("file", file);
+
+            const response = await fetch("/upload", {
+                method: "POST",
+                body: formData,
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                const resultText = document.getElementById("resultText");
+                const copyIcon = document.getElementById("copyIcon");
+                
+                resultText.innerHTML = `<a href="${data.url}" class="result-link" target="_blank">Click Me</a>`;
+                copyIcon.style.display = "block"; // Tampilkan ikon copy
+                copyIcon.setAttribute("data-url", data.url); // Simpan URL untuk disalin
+            } else {
+                document.getElementById("resultText").textContent = "Upload failed.";
+            }
+        });
+
+        function copyToClipboard() {
+            const url = document.getElementById("copyIcon").getAttribute("data-url");
+            navigator.clipboard.writeText(url).then(() => {
+                alert("URL copied to clipboard!");
+            }).catch(() => {
+                alert("Failed to copy URL.");
+            });
+        }
+   let slideIndex = 0;
+        const slides = document.querySelectorAll('.slide');
+        const dots = document.querySelectorAll('.dot');
+
+        function showSlides() {
+            slides.forEach((slide, index) => {
+                slide.classList.remove('active');
+                dots[index].classList.remove('active');
+            });
+
+            slideIndex++;
+            if (slideIndex > slides.length) {
+                slideIndex = 1;
+            }
+
+            slides[slideIndex - 1].classList.add('active');
+            dots[slideIndex - 1].classList.add('active');
+            setTimeout(showSlides, 3000); // Change slide every 3 seconds
+        }
+
+        function currentSlide(index) {
+            slides.forEach((slide, i) => {
+                slide.classList.remove('active');
+                dots[i].classList.remove('active');
+            });
+
+            slides[index].classList.add('active');
+            dots[index].classList.add('active');
+            slideIndex = index;
+        }
+
+        showSlides();
+
+        function openModal(modalId) {
+            document.getElementById(modalId).style.display = 'flex';
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+
+        function filterCards() {
+            const category = document.getElementById('categorySelect').value;
+            const cards = document.querySelectorAll('.card');
+
+            cards.forEach(card => {
+                if (category === 'all' || card.getAttribute('data-category') === category) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+  </script>
+  <script>
+    document.querySelector('.view').addEventListener('click', () => {
+      window.location.replace('upload.html');
+    })
+    
+    document.querySelector('.game1').addEventListener('click', () => {
+      window.location.replace('BatuKertasGunting.html');
+    })
+    
+    document.querySelector('.game2').addEventListener('click', () => {
+      window.location.replace('Ular.html');
+    })
+    
+    document.querySelector('.game3').addEventListener('click', () => {
+      window.location.replace('bola.html');
+    })
+  </script>
+ </body>
+</html>

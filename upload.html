@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+  <meta name="description" content="Neon | Uploaddr">
+  <meta property="og:image" content="https://neon.anomaki.web.id/File/1734610343616-Proyek Baru 165 [5229E35].png">
+  <link rel="icon" href="https://neon.anomaki.web.id/File/1734610343616-Proyek Baru 165 [5229E35].png">
+  <link rel="shortcut icon" href="https://neon.anomaki.web.id/File/1734610343616-Proyek Baru 165 [5229E35].png">
+  
+    <title>File Upload</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #3A2A8E;
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            text-align: center;
+            color: white;
+        }
+        .upload-title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        .upload-box {
+            display: inline-block;
+            padding: 20px;
+            border: 2px solid white;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            cursor: pointer;
+        }
+        .upload-box i {
+            font-size: 100px;
+        }
+        .upload-box p {
+            margin: 10px 0 0 0;
+            font-size: 18px;
+        }
+        .result-url {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .result-box {
+            width: 300px;
+            height: 50px;
+            background-color: #4A3A9E;
+            border-radius: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: white;
+            font-size: 16px;
+            padding: 0 10px;
+            box-sizing: border-box;
+            overflow: hidden;
+        }
+        .result-link {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .copy-icon {
+            cursor: pointer;
+        }
+        input[type="file"] {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="upload-title">
+            UPLOAD YOUR FILE
+        </div>
+        <div class="upload-box" onclick="document.getElementById('fileInput').click();">
+            <i class="fas fa-cloud-upload-alt"></i>
+            <p>Tap here!</p>
+        </div>
+        <input type="file" id="fileInput" accept="*/*">
+        <div class="result-url">
+            Result URL Upload:
+        </div>
+        <div class="result-box" id="resultBox">
+            <span id="resultText" style="flex: 1;">Waiting for upload...</span>
+            <i id="copyIcon" class="fas fa-copy copy-icon" title="Copy URL" onclick="copyToClipboard()" style="display: none;"></i>
+        </div>
+    </div>
+    <script>
+        document.getElementById('fileInput').addEventListener('change', async function(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const formData = new FormData();
+            formData.append("file", file);
+
+            const response = await fetch("/upload", {
+                method: "POST",
+                body: formData,
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                const resultText = document.getElementById("resultText");
+                const copyIcon = document.getElementById("copyIcon");
+                
+                resultText.innerHTML = `<a href="${data.url}" class="result-link" target="_blank">Click Me</a>`;
+                copyIcon.style.display = "block"; // Tampilkan ikon copy
+                copyIcon.setAttribute("data-url", data.url); // Simpan URL untuk disalin
+            } else {
+                document.getElementById("resultText").textContent = "Upload failed.";
+            }
+        });
+
+        function copyToClipboard() {
+            const url = document.getElementById("copyIcon").getAttribute("data-url");
+            navigator.clipboard.writeText(url).then(() => {
+                alert("URL copied to clipboard!");
+            }).catch(() => {
+                alert("Failed to copy URL.");
+            });
+        }
+const express = require("express");
+const path = require("path");
+const multer = require("multer");
+const fs = require("fs");
+
+const app = express();
+const PORT = process.env.PORT || 8080;
+
+const uploadFolder = path.join(__dirname, "File");
+if (!fs.existsSync(uploadFolder)) {
+  fs.mkdirSync(uploadFolder, { recursive: true });
+}
+
+const storage = multer.diskStorage({
+  destination: uploadFolder,
+  filename: (req, file, cb) => {
+    cb(null, `${Date.now()}-${file.originalname}`);
+  },
+});
+
+const upload = multer({
+  storage,
+  limits: { fileSize: 100 * 1024 * 1024 },
+});
+
+app.use(express.static(path.join(__dirname, "public")));
+
+app.post("/upload", upload.single("file"), (req, res) => {
+  if (!req.file) {
+    return res.status(400).json({ error: "No file uploaded" });
+  }
+  const fileUrl = `https://VensCuyy.com/File/${req.file.filename}`;
+  res.json({ url: fileUrl });
+});
+
+app.use((err, req, res, next) => {
+  if (err.code === "LIMIT_FILE_SIZE") {
+    return res.status(413).json({ error: "File size exceeds 100MB limit" });
+  }
+  next(err);
+});
+
+app.listen(PORT, () => {
+  console.log(`Server berjalan di http://localhost:${PORT}`);
+});
+    </script>
+</body>
+</html>

@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>
+   AWALAN WEBSITE
+  </title>
+  
+  <meta name="description" content="VensCuyy Website">
+  <meta property="og:image" content="https://files.catbox.moe/9245kq.png">
+  <link rel="icon" href="https://files.catbox.moe/69yc9x.jpg">
+  <link rel="shortcut icon" href="https://files.catbox.moe/eb7dyx.jpg">
+  
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&amp;display=swap" rel="stylesheet"/>
+  <style>
+   body {
+            margin: 0;
+            font-family: 'Roboto', sans-serif;
+            background-color: #0d1117;
+            color: #fff;
+        }
+        .container {
+            padding: 20px;
+            padding-top: 100px; /* Adjusted padding to account for fixed header */
+        }
+        .header {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 10px 15px;
+            background-color: rgba(22, 27, 34, 0.8);
+            border-radius: 20px;
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 275px;
+            height: 55px;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s ease, top 0.3s ease;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+        .card {
+            background-color: #161b22;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            position: relative;
+        }
+        .card img {
+            width: 100%;
+            border-radius: 10px;
+        }
+        .badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: #007bff;
+            color: #fff;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 14px;
+        }
+        .card-content {
+            display: flex;
+            align-items: center;
+            margin-top: 10px;
+            flex-direction: column;
+            text-align: center;
+        }
+        .card-content img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            margin-bottom: 10px;
+        }
+        .card-content .info {
+            flex-grow: 1;
+        }
+        .card-content .info h3 {
+            margin: 0;
+            font-size: 18px;
+        }
+        .card-content .info p {
+            margin: 0;
+            color: #00d084;
+        }
+        .card-content .actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        .card-content .actions button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+        .card-content .actions .help {
+            background-color: transparent;
+            color: #007bff;
+            border: 2px solid #007bff;
+        }
+        .card-content .actions .download {
+            background-color: #007bff;
+            color: #fff;
+        }
+        .footer {
+            background-color: #161b22;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+            text-align: center;
+        }
+        .footer .profile {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .footer .profile img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            margin-bottom: 10px;
+        }
+        .footer .profile h3 {
+            margin: 0;
+            font-size: 20px;
+        }
+        .footer .profile p {
+            margin: 5px 0;
+            color: #00d084;
+        }
+        .footer .social-icons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 10px;
+        }
+        .footer .social-icons a {
+            color: #fff;
+            font-size: 24px;
+            transition: color 0.3s;
+        }
+        .footer .social-icons a:hover {
+            color: #007bff;
+        }
+            .header h1 {
+                font-size: 20px;
+            }
+            .banner h2 {
+                font-size: 10px;
+            }
+            .card-content .info h3 {
+                font-size: 16px;
+            }
+            .card-content .actions button {
+                padding: 8px 16px;
+            }
+        }
+                .container {
+            text-align: center;
+            color: white;
+        }
+        .upload-title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        .upload-box {
+            display: inline-block;
+            padding: 20px;
+            border: 2px solid white;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            cursor: pointer;
+        }
+        .upload-box i {
+            font-size: 100px;
+        }
+        .upload-box p {
+            margin: 10px 0 0 0;
+            font-size: 18px;
+        }
+        .result-url {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .result-box {
+            width: 300px;
+            height: 50px;
+            background-color: #4A3A9E;
+            border-radius: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: white;
+            font-size: 16px;
+            padding: 0 10px;
+            box-sizing: border-box;
+            overflow: hidden;
+        }
+        .result-link {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .copy-icon {
+            cursor: pointer;
+        }
+        input[type="file"] {
+            display: none;
+        }
+  </style>
+   </head>
+ <body>
+   <!-- HEADER -->
+  <div class="header">
+    <h3>
+      VensCuyy | HTML,CSS DAN JS
+    </h3>
+  </div>
+  
+         <!-- AREA CARD SCRIPT -->
+    <div class="card">
+    <img alt="Churros Spanish Desserts" height="300" src="https://files.catbox.moe/ismumy.jpg" width="600"/>
+    <div class="badge">
+     7
+    </div>
+        <div class="card-content">
+        <img alt="Script Await" heigt="50" src="https://files.catbox.moe/69yc9x.jpg" width="50"/>
+        <div class="info">
+          <h3>
+            VensCuyy
+          </h3>
+          <p>
+            VensCuyy Project
+          </p>
+          </div>
+            <div class="actions">
+      <button type="submit" class="menu">
+        MENU UTAMA
+      </button>
+     </div>
+    </div>
+   </div>
+   
+     <!-- FOOTER -->
+  <footer class="footer">
+   <div class="profile">
+    <img alt="Profile Picture" height="100" src="https://files.catbox.moe/ifx2y7.png" width="100"/>
+    <h3>
+     VensCuuy
+    </h3>
+    <p>
+     PELAJAR SMP UMUR 14 TAHUN
+    </p>
+    <p>
+     KEAHLIAN DALAM CODING
+     HTML, CSS, DAN JAVASCRIPT
+    </p>
+   </div>
+   <div class="social-icons">
+    <a href="https://wa.me/6282245388943" target="_blank">
+     <i class="fab fa-whatsapp">
+     </i>
+    </a>
+    <a href="https://github.com/VensCuyy" target="_blank">
+     <i class="fab fa-github">
+     </i>
+    </a>
+   </div>
+  </footer>
+  <!-- AREA SCRIPT -->
+  <script>
+    document.querySelector('.menu').addEventListener('click', () => {
+      window.location.replace('menu.html');
+    })
+  </script>
+   </body>
+   </html>
